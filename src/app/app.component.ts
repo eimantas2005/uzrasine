@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 // Aprašome, kokius duomenis turi vienas užrašas.
 interface Uzrasas {
@@ -10,7 +11,7 @@ interface Uzrasas {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   template: `
     <main class="langelis">
       <header class="antraste">
@@ -42,13 +43,10 @@ interface Uzrasas {
 
       <h2>Išsaugoti užrašai</h2>
 
-      @if (uzrasai.length === 0) {
-        <p class="tuscia">Užrašų dar nėra.</p>
-      }
+      <p class="tuscia" *ngIf="uzrasai.length === 0">Užrašų dar nėra.</p>
 
       <ul>
-        @for (uzrasas of uzrasai; track $index; let i = $index) {
-          <li class="uzrasas">
+          <li class="uzrasas" *ngFor="let uzrasas of uzrasai; let i = index">
             <h3>{{ uzrasas.pavadinimas }}</h3>
             <p>{{ uzrasas.tekstas }}</p>
             <button
@@ -59,7 +57,6 @@ interface Uzrasas {
               Ištrinti
             </button>
           </li>
-        }
       </ul>
     </main>
   `,
